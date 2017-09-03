@@ -51,7 +51,7 @@ services:
     sms_condition:
         class: AppBundle\Benchmark\ReportingCondition\RelativelyGreater
         arguments:
-            - 100
+            - 100 # percent; greater by 100% or more means value twice as big
     conditional_email_reporter:
         class: AppBundle\Benchmark\Reporter\Conditional
         arguments:
