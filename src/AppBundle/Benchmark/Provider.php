@@ -2,7 +2,7 @@
 
 namespace AppBundle\Benchmark;
 
-use AppBundle\Dto\Benchmark;
+use AppBundle\Dto\TestResult;
 use AppBundle\Dto\Url;
 use AppBundle\Dto\UrlCollection;
 use AppBundle\Dto\WebsiteResultCollection;
@@ -26,21 +26,22 @@ class Provider
         $this->websiteResultProvider = $websiteResultProvider;
     }
 
-    public function getBenchmark(Url $url, UrlCollection $otherUrls): Benchmark
+    public function getTestResult(Url $url, UrlCollection $otherUrls): TestResult
     {
-        $startTime = time();
+        $startTimestamp = time();
         $websiteResults = new WebsiteResultCollection();
         foreach ($otherUrls as $otherUrl) {
             $websiteResults->add($this->websiteResultProvider->getWebsiteResult($otherUrl));
         }
 
-        return new Benchmark(
-            $startTime,
-            $this->benchmarkName,
+        return new TestResult(
+            $startTimestamp,
+            $this->websiteResultProvider->getTestName(),
             $this->websiteResultProvider->getUnit(),
             $this->websiteResultProvider->getWebsiteResult($url),
             $websiteResults
         );
+
     }
 
 }

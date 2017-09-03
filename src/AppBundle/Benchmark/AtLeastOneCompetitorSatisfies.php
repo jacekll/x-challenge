@@ -2,15 +2,18 @@
 
 namespace AppBundle\Benchmark;
 
-use AppBundle\Dto\Benchmark;
+use AppBundle\Dto\TestResult;
 
+/**
+ * If at least one competitor satisfies the condition, reports the condition as verified
+ */
 class AtLeastOneCompetitorSatisfies implements ConditionVerifier
 {
-    public function verifyCondition(Benchmark $benchmark, ReportingCondition $condition)
+    public function verifyCondition(TestResult $testResult, ReportingCondition $condition)
     {
-        foreach($benchmark->getOtherResults() as $otherResult) {
+        foreach($testResult->getWebsiteResults() as $otherResult) {
             if ($condition->isSatisfied(
-                $benchmark->getResult()->getValue(),
+                $testResult->getMainWebsiteResult()->getValue(),
                 $otherResult->getValue()
             )) {
 

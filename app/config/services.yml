@@ -62,16 +62,18 @@ services:
         arguments:
             - '@sms_condition'
             - '@sms_reporter'
+            # - add a custom ConditionVerifier implementation when needed
     # add more services, or override services that need manual wiring
     website_timer:
         class: AppBundle\Benchmark\WebsiteResultProvider\Timer
     benchmark_provider_timer:
         class: AppBundle\Benchmark\Provider
         arguments: ['Response time', '@website_timer']
-    benchmark:
-        class: "AppBundle\\Service\\Benchmark"
-        arguments: [ '@validator', '@benchmark_provider_timer' ]
+    benchmark_processor_timer:
+        class: AppBundle\Benchmark\Processor
+        arguments: ['@benchmark_provider_timer']
         calls:
+            # reporter configuration
             - method: addReporter
               arguments:
                   - '@console_reporter'
@@ -81,6 +83,18 @@ services:
             - method: addReporter
               arguments:
                   - '@conditional_sms_reporter'
+    benchmark:
+        class: AppBundle\Service\Benchmark
+        arguments: [ '@validator' ]
+        calls:
+            # more processors can be added to include different data in the benchmark
+            # each processor can be configured with
+            #  - a benchmark data provider to include more data in the report
+            #  - reporters to react to the data
+            - method: addProcessor
+              arguments:
+                  - '@benchmark_processor_timer'
+
     AppBundle\Command\AppBenchmarkCommand:
         class: AppBundle\Command\AppBenchmarkCommand
         arguments:
@@ -90,14 +104,7 @@ services:
             - { name: monolog.logger, channel: benchmark }
             - { name: console.command }
 
-    benchmark_formatter:
-        public: true
-        class: Monolog\Formatter\LineFormatter
-        arguments:
-            - "[%%datetime%%] %%level_name%%: %%message%%\n"
-            - ~
-            - false
-            - true
+    # console and file output configuration for benchmark
     benchmark_formatter_console:
         public: true
         class: Monolog\Formatter\LineFormatter

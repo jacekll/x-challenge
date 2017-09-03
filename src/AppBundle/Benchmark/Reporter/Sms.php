@@ -1,15 +1,13 @@
 <?php
 
-
 namespace AppBundle\Benchmark\Reporter;
 
-
-use AppBundle\Dto\Benchmark;
 use AppBundle\Benchmark\Reporter;
+use AppBundle\Dto\TestResult;
 
 class Sms implements Reporter
 {
-    public function report(Benchmark $result)
+    public function report(TestResult $result)
     {
         // TODO: Implement SMS reporting.
     }

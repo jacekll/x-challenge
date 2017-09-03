@@ -4,34 +4,40 @@ namespace AppBundle\Dto;
 
 class Benchmark
 {
-    /** @var string */
-    private $name;
-
     /** @var int */
     private $startedTimestamp;
 
-    /** @var string */
-    private $unit;
+    /** @var Url */
+    private $mainUrl;
 
-    /** @var WebsiteResult */
-    private $result;
+    /** @var UrlCollection */
+    private $otherUrls;
 
-    /** @var WebsiteResultCollection */
-    private $otherResults;
+    /** @var TestResult[] */
+    private $testResults = [];
 
     public function __construct(
         int $startTime,
-        string $name,
-        string $unit,
-        WebsiteResult $result,
-        WebsiteResultCollection $otherResults
+        Url $mainUrl,
+        UrlCollection $otherUrls
     )
     {
         $this->startedTimestamp = $startTime;
-        $this->name = $name;
-        $this->unit = $unit;
-        $this->result = $result;
-        $this->otherResults = $otherResults;
+        $this->mainUrl = $mainUrl;
+        $this->otherUrls = $otherUrls;
+    }
+
+    public function addTestResult(TestResult $testResult)
+    {
+        $this->testResults[] = $testResult;
+    }
+
+    /**
+     * @return TestResult[]
+     */
+    public function getTestResults(): array
+    {
+        return $this->testResults;
     }
 
     /**
@@ -43,34 +49,19 @@ class Benchmark
     }
 
     /**
-     * @return string
+     * @return Url
      */
-    public function getName(): string
+    public function getMainUrl(): Url
     {
-        return $this->name;
+        return $this->mainUrl;
     }
 
     /**
-     * @return string
+     * @return UrlCollection
      */
-    public function getUnit(): string
+    public function getOtherUrls(): UrlCollection
     {
-        return $this->unit;
+        return $this->otherUrls;
     }
 
-    /**
-     * @return WebsiteResult
-     */
-    public function getResult(): WebsiteResult
-    {
-        return $this->result;
-    }
-
-    /**
-     * @return WebsiteResultCollection
-     */
-    public function getOtherResults(): WebsiteResultCollection
-    {
-        return $this->otherResults;
-    }
 }

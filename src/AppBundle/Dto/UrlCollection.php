@@ -19,7 +19,7 @@ class UrlCollection implements \IteratorAggregate, \Countable
 
     public function getIterator()
     {
-        return new ArrayIterator($this->elements);
+        return new \ArrayIterator($this->elements);
     }
 
     public function toUrl($item)

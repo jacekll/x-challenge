@@ -76,7 +76,7 @@ monolog:
             type: stream
             path: '%kernel.project_dir%/log.txt'
             channels: ['benchmark']
-            formatter: 'benchmark_formatter'
+            formatter: 'benchmark_formatter_console'
         console:
             type:   console
             process_psr_3_messages: true

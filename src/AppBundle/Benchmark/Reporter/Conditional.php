@@ -1,14 +1,12 @@
 <?php
 
-
 namespace AppBundle\Benchmark\Reporter;
-
 
 use AppBundle\Benchmark\AtLeastOneCompetitorSatisfies;
 use AppBundle\Benchmark\ConditionVerifier;
 use AppBundle\Benchmark\Reporter;
 use AppBundle\Benchmark\ReportingCondition;
-use AppBundle\Dto\Benchmark;
+use AppBundle\Dto\TestResult;
 
 class Conditional implements Reporter
 {
@@ -34,7 +32,7 @@ class Conditional implements Reporter
         $this->conditionVerifier = $conditionVerifier ?? new AtLeastOneCompetitorSatisfies();
     }
 
-    public function report(Benchmark $result)
+    public function report(TestResult $result)
     {
         if ($this->conditionVerifier->verifyCondition($result, $this->condition)) {
             $this->reporter->report($result);

@@ -21,7 +21,7 @@ class WebsiteResultCollection implements \IteratorAggregate, \Countable
 
     public function getIterator()
     {
-        return new ArrayIterator($this->elements);
+        return new \ArrayIterator($this->elements);
     }
 
     public function add(WebsiteResult $element)

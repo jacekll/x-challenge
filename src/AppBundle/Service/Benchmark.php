@@ -3,9 +3,8 @@
 namespace AppBundle\Service;
 
 use AppBundle\Benchmark\IncorrectUrlsException;
-use AppBundle\Benchmark\Reporter;
+use AppBundle\Benchmark\Processor;
 use AppBundle\Dto;
-use AppBundle\Benchmark\Provider;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class Benchmark
@@ -16,29 +15,24 @@ class Benchmark
     /** @var string[] */
     private $otherUrls;
 
-    /** @var Reporter[] */
-    private $reporters = [];
+    /** @var Processor[] */
+    private $processors = [];
 
     /**
      * @var ValidatorInterface
      */
     private $validator;
 
-    /** @var Provider */
-    private $benchmarkProvider;
-
     public function __construct(
-        ValidatorInterface $validator,
-        Provider $benchmarkProvider
+        ValidatorInterface $validator
     )
     {
         $this->validator = $validator;
-        $this->benchmarkProvider = $benchmarkProvider;
     }
 
-    public function addReporter(Reporter $reporter)
+    public function addProcessor(Processor $processor)
     {
-        $this->reporters[] = $reporter;
+        $this->processors[] = $processor;
     }
 
     public function benchmark(string $url, array $otherUrls)
@@ -48,10 +42,9 @@ class Benchmark
 
         $this->validateInput();
 
-        $benchmarkResult = $this->benchmarkProvider->getBenchmark($this->url, $this->otherUrls);
-
-        foreach ($this->reporters as $reporter) {
-            $reporter->report($benchmarkResult);
+        $benchmarkResult = new Dto\Benchmark(time(), $this->url, $this->otherUrls);
+        foreach($this->processors as $processor) {
+            $processor->process($benchmarkResult);
         }
     }
 

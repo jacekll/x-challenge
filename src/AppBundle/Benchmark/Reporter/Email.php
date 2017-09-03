@@ -1,11 +1,10 @@
 <?php
 
-
 namespace AppBundle\Benchmark\Reporter;
 
 
 use AppBundle\Benchmark\Reporter;
-use AppBundle\Dto\Benchmark;
+use AppBundle\Dto\TestResult;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
 class Email implements Reporter
@@ -18,6 +17,9 @@ class Email implements Reporter
 
     /** @var \Swift_Mailer */
     private $mailer;
+
+    /** @var EngineInterface */
+    private $templating;
 
     /** @var string */
     private $templatePath;
@@ -44,7 +46,7 @@ class Email implements Reporter
         $this->templatePath = $templatePath;
     }
 
-    public function report(Benchmark $result)
+    public function report(TestResult $result)
     {
         $message = (new \Swift_Message('Hello Email'))
             ->setFrom($this->fromAddress)
@@ -54,7 +56,7 @@ class Email implements Reporter
                     $this->templatePath,
                     [
                         'benchmark' => $result,
-                        'website' => $result->getResult()->getUrl()->getUrl()
+                        'website' => $result->getMainWebsiteResult()->getUrl()->getUrl()
                     ]
                 )
             );

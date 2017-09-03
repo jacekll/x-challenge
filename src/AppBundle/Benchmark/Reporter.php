@@ -2,9 +2,9 @@
 
 namespace AppBundle\Benchmark;
 
-use AppBundle\Dto\Benchmark;
+use AppBundle\Dto\TestResult;
 
 interface Reporter
 {
-    public function report(Benchmark $result);
+    public function report(TestResult $result);
 }

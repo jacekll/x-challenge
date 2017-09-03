@@ -1,12 +1,10 @@
 <?php
 
-
 namespace AppBundle\Benchmark\Reporter;
 
 
 use AppBundle\Benchmark\Reporter;
-
-use AppBundle\Dto\Benchmark;
+use AppBundle\Dto\TestResult;
 use AppBundle\Dto\WebsiteResult;
 use Psr\Log\LoggerInterface;
 
@@ -24,15 +22,15 @@ class Console implements Reporter
         $this->logger = $logger;
     }
 
-    public function report(Benchmark $result)
+    public function report(TestResult $result)
     {
         $this->logger->info('Benchmark started at: ' .
-            date('Y-m-d H:i:sP', $result->getStartedTimestamp()));
+            date('Y-m-d H:i:sP', $result->getStartTimestamp()));
         $this->logger->info($result->getName());
-        $this->printSingleResult($result->getUnit(), $result->getResult());
+        $this->printSingleResult($result->getUnit(), $result->getMainWebsiteResult());
 
         $this->logger->info('Competition:');
-        foreach($result->getOtherResults() as $otherResult) {
+        foreach($result->getWebsiteResults() as $otherResult) {
             $this->printSingleResult($result->getUnit(), $otherResult);
         }
     }

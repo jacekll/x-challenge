@@ -56,7 +56,7 @@ class AppBenchmarkCommand extends Command
             ->setName('app:benchmark')
             ->setDescription('Benchmarks a website against other websites; currently checks website response time')
             ->addArgument('url', InputArgument::REQUIRED, 'Website address to benchmark')
-            ->addArgument('other', InputArgument::REQUIRED | InputArgument::IS_ARRAY,
+            ->addArgument('otherUrl', InputArgument::REQUIRED | InputArgument::IS_ARRAY,
                 'Other websites to benchmark against (separated by a space)
                 All should start with "http(s)://"
                 ');
@@ -65,7 +65,7 @@ class AppBenchmarkCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $url = $input->getArgument('url');
-        $urls = $input->getArgument('other');
+        $urls = $input->getArgument('otherUrl');
 
         $logger = $this->getLogger();
         try {

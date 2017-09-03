@@ -8,7 +8,9 @@ use AppBundle\Dto\WebsiteResult;
 
 interface WebsiteResultProvider
 {
-    public function getWebsiteResult(Url $url): WebsiteResult;
+    public function getTestName(): string;
 
     public function getUnit(): string;
+
+    public function getWebsiteResult(Url $url): WebsiteResult;
 }
