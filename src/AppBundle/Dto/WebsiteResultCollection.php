@@ -9,6 +9,9 @@ class WebsiteResultCollection implements \IteratorAggregate, \Countable
      */
     private $elements;
 
+    /**
+     * @param WebsiteResult[] $elements
+     */
     public function __construct(array $elements = [])
     {
         $this->elements = array_map(array($this, 'checkType'), $elements);
@@ -29,17 +32,18 @@ class WebsiteResultCollection implements \IteratorAggregate, \Countable
         $this->elements[] = $element;
     }
 
-    public function checkType(int $index, $item)
+    public function checkType($item)
     {
         if (!$item instanceof WebsiteResult) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    'Expected WebsiteResult, got %s at index %d',
-                    is_object($item) ? get_class($item) : gettype($item),
-                    $index
+                    'Expected WebsiteResult, got %s',
+                    is_object($item) ? get_class($item) : gettype($item)
                 )
             );
         }
+
+        return $item;
     }
 
 }
