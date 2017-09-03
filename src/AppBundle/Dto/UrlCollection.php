@@ -6,7 +6,7 @@ class UrlCollection implements \IteratorAggregate, \Countable
     /** @var Url[] */
     private $elements;
 
-    public function __construct(array $elements)
+    public function __construct(array $elements = [])
     {
         $this->elements = array_map(array($this, 'toUrl'), $elements);
 
@@ -22,7 +22,7 @@ class UrlCollection implements \IteratorAggregate, \Countable
         return new \ArrayIterator($this->elements);
     }
 
-    public function toUrl($item)
+    private function toUrl($item)
     {
         if (!is_string($item) && !$item instanceof Url) {
             throw new \InvalidArgumentException("Expected a Url instance or a string");
