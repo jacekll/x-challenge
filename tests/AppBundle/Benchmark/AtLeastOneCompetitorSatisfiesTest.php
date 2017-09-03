@@ -5,9 +5,7 @@ namespace Tests\AppBundle\Benchmark;
 use AppBundle\Benchmark\AtLeastOneCompetitorSatisfies;
 use AppBundle\Benchmark\ReportingCondition;
 use AppBundle\Dto\TestResult;
-use AppBundle\Dto\Url;
-use AppBundle\Dto\WebsiteResult;
-use AppBundle\Dto\WebsiteResultCollection;
+use Tests\lib\TestResultFactory;
 
 class AtLeastOneCompetitorSatisfiesTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,22 +18,12 @@ class AtLeastOneCompetitorSatisfiesTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->conditionVerifier = new AtLeastOneCompetitorSatisfies();
-        $this->testResult = new TestResult(
-            0,
-            '',
-            's',
-            new WebSiteResult(new Url('http://blah.com'), 1),
-            new WebsiteResultCollection(
-                [
-                    new WebsiteResult(new Url('http://blah2.com'), 12345),
-                    new WebsiteResult(new Url('http://blah3.com'), 12345),
-                ]
-            )
-        );
+        $this->testResult = (new TestResultFactory())->getSampleTestResult();
     }
 
     public function testZeroDoesNotSatisfy()
     {
+        /** @var ReportingCondition|\PHPUnit_Framework_MockObject_MockObject $conditionStub */
         $conditionStub = self::getMockBuilder(ReportingCondition::class)
             ->getMockForAbstractClass();
         $conditionStub->expects($this->any())->method('isSatisfied')
@@ -52,6 +40,7 @@ class AtLeastOneCompetitorSatisfiesTest extends \PHPUnit_Framework_TestCase
 
     public function testOneSatisfies()
     {
+        /** @var ReportingCondition|\PHPUnit_Framework_MockObject_MockObject $conditionStub */
         $conditionStub = self::getMockBuilder(ReportingCondition::class)
             ->getMockForAbstractClass();
         $conditionStub->expects($this->at(0))->method('isSatisfied')
@@ -69,6 +58,7 @@ class AtLeastOneCompetitorSatisfiesTest extends \PHPUnit_Framework_TestCase
 
     public function testTwoSatisfy()
     {
+        /** @var ReportingCondition|\PHPUnit_Framework_MockObject_MockObject $conditionStub */
         $conditionStub = self::getMockBuilder(ReportingCondition::class)
             ->getMockForAbstractClass();
         $conditionStub->expects($this->any())->method('isSatisfied')
