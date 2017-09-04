@@ -17,15 +17,18 @@ class Provider
 
     /**
      * Provider constructor.
-     * @param string $benchmarkName
+     * @param string $benchmarkName human-readable benchmark name to override the default name given from provider, optional
      * @param WebsiteResultProvider $websiteResultProvider
      */
-    public function __construct(string $benchmarkName, WebsiteResultProvider $websiteResultProvider)
+    public function __construct(WebsiteResultProvider $websiteResultProvider, string $benchmarkName = null)
     {
         $this->benchmarkName = $benchmarkName;
         $this->websiteResultProvider = $websiteResultProvider;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getTestResult(Url $url, UrlCollection $otherUrls): TestResult
     {
         $startTimestamp = time();
@@ -36,7 +39,7 @@ class Provider
 
         return new TestResult(
             $startTimestamp,
-            $this->websiteResultProvider->getTestName(),
+            $this->benchmarkName ?? $this->websiteResultProvider->getTestName(),
             $this->websiteResultProvider->getUnit(),
             $this->websiteResultProvider->getWebsiteResult($url),
             $websiteResults
