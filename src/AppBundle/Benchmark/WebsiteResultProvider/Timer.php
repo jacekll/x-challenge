@@ -14,7 +14,7 @@ class Timer implements WebsiteResultProvider
      */
     public function getTestName(): string
     {
-        return 'Page load time'; // TODO: inject?
+        return 'Page load time';
     }
 
     public function getWebsiteResult(Url $url): WebsiteResult
