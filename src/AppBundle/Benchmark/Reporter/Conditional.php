@@ -2,7 +2,7 @@
 
 namespace AppBundle\Benchmark\Reporter;
 
-use AppBundle\Benchmark\AtLeastOneCompetitorSatisfies;
+use AppBundle\Benchmark\ConditionVerifier\AtLeastOneCompetitorSatisfies;
 use AppBundle\Benchmark\ConditionVerifier;
 use AppBundle\Benchmark\Reporter;
 use AppBundle\Benchmark\ReportingCondition;

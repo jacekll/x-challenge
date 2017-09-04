@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\Benchmark;
 
-use AppBundle\Benchmark\AtLeastOneCompetitorSatisfies;
+use AppBundle\Benchmark\ConditionVerifier\AtLeastOneCompetitorSatisfies;
 use AppBundle\Benchmark\ReportingCondition;
 use AppBundle\Dto\TestResult;
 use Tests\lib\TestResultFactory;

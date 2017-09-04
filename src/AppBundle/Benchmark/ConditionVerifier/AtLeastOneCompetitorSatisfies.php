@@ -1,7 +1,9 @@
 <?php
 
-namespace AppBundle\Benchmark;
+namespace AppBundle\Benchmark\ConditionVerifier;
 
+use AppBundle\Benchmark\ConditionVerifier;
+use AppBundle\Benchmark\ReportingCondition;
 use AppBundle\Dto\TestResult;
 
 /**
