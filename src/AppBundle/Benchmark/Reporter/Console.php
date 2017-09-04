@@ -7,6 +7,7 @@ use AppBundle\Benchmark\Reporter;
 use AppBundle\Dto\TestResult;
 use AppBundle\Dto\Url;
 use AppBundle\Dto\WebsiteResult;
+use AppBundle\Table\Formatter;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -15,45 +16,28 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class Console implements Reporter, EventSubscriberInterface
 {
-    /** @var LoggerInterface */
-    private $logger;
+    /** @var Formatter */
+    private $formatter;
 
     /** @var TestResult[] */
     private $testResults = [];
 
-    private $currentLine = '';
-
     /**
      * @param LoggerInterface $logger
      */
-    public function __construct(LoggerInterface $logger)
+    public function __construct(Formatter $formatter)
     {
-        $this->logger = $logger;
+        $this->formatter = $formatter;
     }
 
     public function report(TestResult $result)
     {
         $this->testResults[] = $result;
-        $this->printStr('Benchmark started at: ' .
-            date('Y-m-d H:i:sP', $result->getStartTimestamp()));
-        $this->finishRow();
-
-
-
-        /*
-        $this->logger->info($result->getName());
-        $this->printSingleResult($result->getUnit(), $result->getMainWebsiteResult());
-
-        $this->printStr('Competition:');
-        foreach($result->getWebsiteResults() as $otherResult) {
-            $this->printSingleResult($result->getUnit(), $otherResult);
-        }
-        */
     }
 
     private function printSingleResult(string $testName, string $unit, WebsiteResult $websiteResult)
     {
-        $this->printStr(
+        $this->printCell(
             sprintf("%s: %d %s",
                 $testName,
                 $websiteResult->getValue(),
@@ -74,11 +58,10 @@ class Console implements Reporter, EventSubscriberInterface
             return;
         }
 
-        $this->printHeader();
+        $this->printStartDateHeader($this->testResults[0]);
 
         $this->printUrl($this->testResults[0]->getMainWebsiteResult()->getUrl());
         foreach($this->testResults as $testResult) {
-            $this->printSeparator();
             $this->printSingleResult($testResult->getName(), $testResult->getUnit(), $testResult->getMainWebsiteResult());
 
         }
@@ -87,7 +70,6 @@ class Console implements Reporter, EventSubscriberInterface
         foreach($this->testResults[0]->getWebsiteResults() as $websiteResult) {
             $this->printUrl($websiteResult->getUrl());
             foreach($this->testResults as $testResult) {
-                $this->printSeparator();
                 $this->printSingleResult(
                     $testResult->getName(),
                     $testResult->getUnit(),
@@ -114,33 +96,25 @@ class Console implements Reporter, EventSubscriberInterface
         return $listeners;
     }
 
-    private function printHeader()
+    private function printStartDateHeader(TestResult $result)
     {
-        foreach($this->testResults as $testResult) {
-            $this->printSeparator();
-            $this->printStr($testResult->getName());
-        }
+        $this->printCell('Benchmark started at: ');
+        $this->printCell(date('Y-m-d H:i:sP', $result->getStartTimestamp()));
         $this->finishRow();
     }
 
     private function printUrl(Url $getUrl)
     {
-        $this->printStr($getUrl->getUrl());
-    }
-
-    private function printSeparator()
-    {
-        $this->printStr("\t");
-    }
-
-    private function printStr($string)
-    {
-        $this->currentLine .= $string;
+        $this->printCell($getUrl->getUrl());
     }
 
     private function finishRow()
     {
-        $this->logger->info($this->currentLine);
-        $this->currentLine = '';
+        $this->formatter->finishRow();
+    }
+
+    private function printCell(string $content)
+    {
+        $this->formatter->addCell($content);
     }
 }

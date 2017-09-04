@@ -29,13 +29,18 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
+    table_formatter:
+        class: AppBundle\Table\Formatter\TabSeparated
+        arguments:
+            - '@logger'
+        tags:
+            - { name: monolog.logger, channel: benchmark }
     console_reporter:
         class: AppBundle\Benchmark\Reporter\Console
         arguments:
-            - '@logger'
-            - '@benchmark'
+            - '@table_formatter'
         tags:
-            - { name: monolog.logger, channel: benchmark }
+            - { name: kernel.event_subscriber }
     email_reporter:
         class: AppBundle\Benchmark\Reporter\Email
         arguments:
@@ -57,7 +62,9 @@ services:
     sms_condition:
         class: AppBundle\Benchmark\ReportingCondition\RelativelyGreater
         arguments:
-            - 100 # percent; greater by 100% or more means value twice as big
+            - 100 # percent; greater by 100% or more means value twice as big or bigger
+
+    # configure more conditional reporters if needed
     conditional_email_reporter:
         class: AppBundle\Benchmark\Reporter\Conditional
         arguments:
@@ -68,18 +75,25 @@ services:
         arguments:
             - '@sms_condition'
             - '@sms_reporter'
-            # - add a custom ConditionVerifier implementation when needed
+            # - add a custom ConditionVerifier implementation here, as third argument, when needed
     # add more services, or override services that need manual wiring
     website_timer:
         class: AppBundle\Benchmark\WebsiteResultProvider\Timer
     benchmark_provider_timer:
         class: AppBundle\Benchmark\Provider
-        arguments: ['Response time', '@website_timer']
+        arguments: ['@website_timer']
+    # sample additional benchmark provider
+    # pass any AppBundle\Benchmark\WebsiteResultProvider implementation to include custom data
+    benchmark_provider_timer2:
+            class: AppBundle\Benchmark\Provider
+            arguments:
+                - '@website_timer'
+                - 'Page load time (revisit)' # optionally override the default benchmark name with another human-readable name
     benchmark_processor_timer:
         class: AppBundle\Benchmark\Processor
         arguments: ['@benchmark_provider_timer', '@logger']
         calls:
-            # reporter configuration
+            # reporter configuration, separately for each "sub-benchmark"
             - method: addReporter
               arguments:
                   - '@console_reporter'
@@ -89,17 +103,32 @@ services:
             - method: addReporter
               arguments:
                   - '@conditional_sms_reporter'
+    # sample second sub-benchmark - use a provider configured with custom WebsiteResultProvider implementation
+    # to include custom data in the report
+    benchmark_processor_timer2:
+        class: AppBundle\Benchmark\Processor
+        arguments: ['@benchmark_provider_timer2', '@logger']
+        calls:
+            # reporter configuration for this particular sub-benchmark - for example only console reporting configured here
+            - method: addReporter
+              arguments:
+                  - '@console_reporter'
+    # main benchmark service condiguration
     benchmark:
         class: AppBundle\Service\Benchmark
         arguments: [ '@validator', '@logger' ]
         calls:
-            # more processors can be added to include different data in the benchmark
+            # more processors can be added to include different sub-benchmark data in the benchmark
+            # (see sample benchmark_processor_timer2 service for example config.)
             # each processor can be configured with
             #  - a benchmark data provider to include more data in the report
             #  - reporters to react to the data
             - method: addProcessor
               arguments:
                   - '@benchmark_processor_timer'
+            - method: addProcessor
+              arguments:
+                  - '@benchmark_processor_timer2'
 
     AppBundle\Command\AppBenchmarkCommand:
         class: AppBundle\Command\AppBenchmarkCommand

@@ -46,4 +46,13 @@ class WebsiteResultCollection implements \IteratorAggregate, \Countable
         return $item;
     }
 
+    public function getByUrl(Url $url)
+    {
+        $itemsByUrl = array_filter($this->elements, function(WebsiteResult $item) use ($url) {
+            return $item->getUrl()->getUrl() === $url->getUrl();
+        });
+
+        return array_shift($itemsByUrl);
+    }
+
 }
