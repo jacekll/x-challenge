@@ -3,6 +3,7 @@
 namespace AppBundle\Benchmark;
 
 use AppBundle\Dto\Benchmark;
+use Psr\Log\LoggerInterface;
 
 class Processor
 {
@@ -12,13 +13,16 @@ class Processor
     /** @var Provider */
     private $provider;
 
+    /** @var LoggerInterface $logger */
+    private $logger;
     /**
      * Processor constructor.
      * @param Provider $provider
      */
-    public function __construct(Provider $provider)
+    public function __construct(Provider $provider, LoggerInterface $logger)
     {
         $this->provider = $provider;
+        $this->logger = $logger;
     }
 
 
@@ -33,7 +37,11 @@ class Processor
         $benchmarkResult->addTestResult($testResult);
 
         foreach ($this->reporters as $reporter) {
-            $reporter->report($testResult);
+            try {
+                $reporter->report($testResult);
+            } catch (\Throwable $e) {
+                $this->logger->error('Benchmark reporter failed', ['exception' => $e]);
+            }
         }
     }
 }

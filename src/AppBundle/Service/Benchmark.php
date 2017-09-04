@@ -5,6 +5,7 @@ namespace AppBundle\Service;
 use AppBundle\Benchmark\IncorrectUrlsException;
 use AppBundle\Benchmark\Processor;
 use AppBundle\Dto;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class Benchmark
@@ -23,11 +24,16 @@ class Benchmark
      */
     private $validator;
 
+    /** @var LoggerInterface */
+    private $logger;
+
     public function __construct(
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        LoggerInterface $logger
     )
     {
         $this->validator = $validator;
+        $this->logger = $logger;
     }
 
     public function addProcessor(Processor $processor)
@@ -43,8 +49,13 @@ class Benchmark
         $this->validateInput();
 
         $benchmarkResult = new Dto\Benchmark(time(), $this->url, $this->otherUrls);
+
         foreach($this->processors as $processor) {
-            $processor->process($benchmarkResult);
+            try {
+                $processor->process($benchmarkResult);
+            } catch (\Throwable $e) {
+                $this->logger->error(sprintf('Benchmark processor %s failed', get_class($processor)), ['exception' => $e]);
+            }
         }
     }
 

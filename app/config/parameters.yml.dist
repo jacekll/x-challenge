@@ -15,5 +15,7 @@ parameters:
     mailer_user: ~
     mailer_password: ~
 
+    smsapi_login: TEST_LOGIN
+    smsapi_password_hash: TEST_HASH
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt

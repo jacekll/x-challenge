@@ -44,8 +44,14 @@ services:
             - '@mailer'
             - '@templating'
             - 'report/email.txt.twig'
-    sms_reporter: # dummy SMS reporter
+    sms_reporter: # SMS reporter
         class: AppBundle\Benchmark\Reporter\Sms
+        arguments:
+            - '@kch_sms_api.sms_factory.default'
+            - '@templating'
+            - 'report/sms.txt.twig'
+            - 'Jacek L for XSolve' # sender name
+            - '502536598' # destination address
     email_condition:
         class: AppBundle\Benchmark\ReportingCondition\RelativelyGreater
     sms_condition:
@@ -71,7 +77,7 @@ services:
         arguments: ['Response time', '@website_timer']
     benchmark_processor_timer:
         class: AppBundle\Benchmark\Processor
-        arguments: ['@benchmark_provider_timer']
+        arguments: ['@benchmark_provider_timer', '@logger']
         calls:
             # reporter configuration
             - method: addReporter
@@ -85,7 +91,7 @@ services:
                   - '@conditional_sms_reporter'
     benchmark:
         class: AppBundle\Service\Benchmark
-        arguments: [ '@validator' ]
+        arguments: [ '@validator', '@logger' ]
         calls:
             # more processors can be added to include different data in the benchmark
             # each processor can be configured with

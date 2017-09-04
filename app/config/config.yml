@@ -82,3 +82,9 @@ monolog:
             process_psr_3_messages: true
             channels: ['!event', '!doctrine', '!console']
             formatter: 'benchmark_formatter_console'
+
+kch_sms_api:
+    clients:
+        default:
+            client_login: %smsapi_login%
+            client_password_hash: %smsapi_password_hash%

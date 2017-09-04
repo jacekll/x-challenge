@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "038d49a174b2db5df81ca9bb60dbe60f",
+    "content-hash": "cda32df29057903ff97c34fc2e2342f6",
     "packages": [
         {
             "name": "bmancone/guzzle-stopwatch-middleware",
@@ -1227,6 +1227,49 @@
             "time": "2014-01-12T16:20:24+00:00"
         },
         {
+            "name": "kch/smsapi-bundle",
+            "version": "1.6.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KredytyChwilowki/smsapi-bundle.git",
+                "reference": "f3f5e76e021b6a5da8c8d8accb81c4e283b9faa7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KredytyChwilowki/smsapi-bundle/zipball/f3f5e76e021b6a5da8c8d8accb81c4e283b9faa7",
+                "reference": "f3f5e76e021b6a5da8c8d8accb81c4e283b9faa7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "smsapi/php-client": "1.6.*"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "KCH\\Bundle\\SmsApiBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "KredytyChwilowkiProgrammer",
+                    "email": "p.pikula@kredyty-chwilowki.pl"
+                }
+            ],
+            "description": "Symfony 2 Bundle for SMSApi PHP Client library.",
+            "keywords": [
+                "bundle",
+                "mms",
+                "sms",
+                "vms"
+            ],
+            "time": "2016-06-01T07:46:14+00:00"
+        },
+        {
             "name": "monolog/monolog",
             "version": "1.23.0",
             "source": {
@@ -1807,6 +1850,46 @@
             ],
             "description": "A security checker for your composer.lock",
             "time": "2017-08-22T22:18:16+00:00"
+        },
+        {
+            "name": "smsapi/php-client",
+            "version": "1.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/smsapi/smsapi-php-client.git",
+                "reference": "71d4db059af7ca48f638c96783aa0661335d8f0e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/smsapi/smsapi-php-client/zipball/71d4db059af7ca48f638c96783aa0661335d8f0e",
+                "reference": "71d4db059af7ca48f638c96783aa0661335d8f0e",
+                "shasum": ""
+            },
+            "require-dev": {
+                "apigen/apigen": "~4.0",
+                "phpunit/phpunit": "4.1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SMSApi\\": "smsapi"
+                },
+                "classmap": [
+                    "smsapi"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "Library for communicating with provider",
+            "homepage": "http://smsapi.pl",
+            "keywords": [
+                "mms",
+                "sms",
+                "vms"
+            ],
+            "time": "2015-08-03T06:52:49+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
