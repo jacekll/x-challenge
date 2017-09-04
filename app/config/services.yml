@@ -82,8 +82,13 @@ services:
             - '@sms_reporter'
             # - add a custom ConditionVerifier implementation here, as third argument, when needed
     # add more services, or override services that need manual wiring
+    #
+    page_load_timer:
+        class: AppBundle\Benchmark\PageLoadTimer
     website_timer:
         class: AppBundle\Benchmark\WebsiteResultProvider\Timer
+        arguments:
+            ['@page_load_timer']
     benchmark_provider_timer:
         class: AppBundle\Benchmark\Provider
         arguments: ['@website_timer']
