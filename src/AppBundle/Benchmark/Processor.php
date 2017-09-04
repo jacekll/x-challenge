@@ -40,7 +40,7 @@ class Processor
             try {
                 $reporter->report($testResult);
             } catch (\Throwable $e) {
-                $this->logger->error('Benchmark reporter failed', ['exception' => $e]);
+                $this->logger->error(sprintf('Benchmark reporter failed: %s', $e->getMessage()), ['exception' => $e]);
             }
         }
     }

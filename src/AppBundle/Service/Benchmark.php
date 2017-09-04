@@ -54,7 +54,7 @@ class Benchmark
             try {
                 $processor->process($benchmarkResult);
             } catch (\Throwable $e) {
-                $this->logger->error(sprintf('Benchmark processor %s failed', get_class($processor)), ['exception' => $e]);
+                $this->logger->error(sprintf('Benchmark processor %s failed: %s', get_class($processor), $e->getMessage()), ['exception' => $e]);
             }
         }
     }
