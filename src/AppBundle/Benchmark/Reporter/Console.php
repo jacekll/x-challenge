@@ -58,11 +58,6 @@ class Console implements Reporter, EventSubscriberInterface
         );
     }
 
-    public function onException()
-    {
-        $this->wasExceptionThrown = true;
-    }
-
     /**
      * prints tests results in columns
      */
@@ -88,7 +83,6 @@ class Console implements Reporter, EventSubscriberInterface
                 $this->printSingleComparisonResult(
                     $testResult->getName(),
                     $testResult->getUnit(),
-                    // TODO: move getByUrl to testresult?
                     $testResult->getMainWebsiteResult(),
                     $testResult->getWebsiteResults()->getByUrl($websiteResult->getUrl())
                 );
@@ -100,12 +94,10 @@ class Console implements Reporter, EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         $listeners = array(
-            KernelEvents::EXCEPTION => 'onException',
             KernelEvents::TERMINATE => 'onTerminate'
         );
 
         if (class_exists('Symfony\Component\Console\ConsoleEvents')) {
-            $listeners[class_exists('Symfony\Component\Console\Event\ConsoleErrorEvent') ? ConsoleEvents::ERROR :  ConsoleEvents::EXCEPTION] = 'onException';
             $listeners[ConsoleEvents::TERMINATE] = 'onTerminate';
         }
 
