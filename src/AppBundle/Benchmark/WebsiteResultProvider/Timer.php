@@ -9,6 +9,14 @@ use AppBundle\Dto\WebsiteResult;
 
 class Timer implements WebsiteResultProvider
 {
+    /** @var PageLoadTimer */
+    private $pageLoadTimer;
+
+    public function __construct(PageLoadTimer $pageLoadTimer)
+    {
+        $this->pageLoadTimer = $pageLoadTimer;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -19,9 +27,7 @@ class Timer implements WebsiteResultProvider
 
     public function getWebsiteResult(Url $url): WebsiteResult
     {
-        $pageLoadTimer = new PageLoadTimer();
-
-        return new WebsiteResult($url, $pageLoadTimer->getPageLoadTime($url->getUrl()));
+        return new WebsiteResult($url, $this->pageLoadTimer->getPageLoadTime($url->getUrl()));
     }
 
     /**
