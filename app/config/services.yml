@@ -35,10 +35,15 @@ services:
             - '@logger'
         tags:
             - { name: monolog.logger, channel: benchmark }
+
+    comparator:
+        class: AppBundle\Benchmark\ValueComparator\Percentage
+
     console_reporter:
         class: AppBundle\Benchmark\Reporter\Console
         arguments:
             - '@table_formatter'
+            - '@comparator'
         tags:
             - { name: kernel.event_subscriber }
     email_reporter:

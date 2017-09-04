@@ -2,13 +2,12 @@
 
 namespace AppBundle\Benchmark\Reporter;
 
-
 use AppBundle\Benchmark\Reporter;
+use AppBundle\Benchmark\ValueComparator;
 use AppBundle\Dto\TestResult;
 use AppBundle\Dto\Url;
 use AppBundle\Dto\WebsiteResult;
 use AppBundle\Table\Formatter;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -22,12 +21,13 @@ class Console implements Reporter, EventSubscriberInterface
     /** @var TestResult[] */
     private $testResults = [];
 
-    /**
-     * @param LoggerInterface $logger
-     */
-    public function __construct(Formatter $formatter)
+    /** @var ValueComparator */
+    private $valueComparator;
+
+    public function __construct(Formatter $formatter, ValueComparator $valueComparator)
     {
         $this->formatter = $formatter;
+        $this->valueComparator = $valueComparator;
     }
 
     public function report(TestResult $result)
@@ -46,11 +46,26 @@ class Console implements Reporter, EventSubscriberInterface
         );
     }
 
+    private function printSingleComparisonResult(string $testName, string $unit, WebsiteResult $originalResult, WebsiteResult $websiteResult)
+    {
+        $this->printCell(
+            sprintf("%s: %d %s (%s)",
+                $testName,
+                $websiteResult->getValue(),
+                $unit,
+                $this->valueComparator->getComparison($originalResult->getValue(), $websiteResult->getValue(), $unit)
+            )
+        );
+    }
+
     public function onException()
     {
         $this->wasExceptionThrown = true;
     }
 
+    /**
+     * prints tests results in columns
+     */
     public function onTerminate()
     {
         if (!$this->testResults) {
@@ -70,10 +85,11 @@ class Console implements Reporter, EventSubscriberInterface
         foreach($this->testResults[0]->getWebsiteResults() as $websiteResult) {
             $this->printUrl($websiteResult->getUrl());
             foreach($this->testResults as $testResult) {
-                $this->printSingleResult(
+                $this->printSingleComparisonResult(
                     $testResult->getName(),
                     $testResult->getUnit(),
                     // TODO: move getByUrl to testresult?
+                    $testResult->getMainWebsiteResult(),
                     $testResult->getWebsiteResults()->getByUrl($websiteResult->getUrl())
                 );
             }
