@@ -2,12 +2,20 @@ Website benchmark challenge for Xsolve
 ======
 
 # Installation
-run `composer install` shell command in project main directory.
+
+Be ready to provide configuration parameters, like SMSApi credentials.
+
+Run `composer install` shell command in project main directory.
 
 # Usage
 
 Run `bin/console app:benchmark <main URL> <other URL1> <other URL2> <other URL3>...`
 in project main directory.
+
+# Testing
+
+Run `phpunit` in project's main directory to run unit tests.
+
 
 # Configuration
 
