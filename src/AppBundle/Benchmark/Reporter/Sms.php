@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
 class Sms implements Reporter
 {
-    /** @var  */
+    /** @var SmsFactory */
     private $smsActionFactory;
 
     /** @var EngineInterface */
