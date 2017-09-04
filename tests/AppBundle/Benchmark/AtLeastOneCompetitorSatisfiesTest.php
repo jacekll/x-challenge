@@ -5,7 +5,7 @@ namespace Tests\AppBundle\Benchmark;
 use AppBundle\Benchmark\ConditionVerifier\AtLeastOneCompetitorSatisfies;
 use AppBundle\Benchmark\ReportingCondition;
 use AppBundle\Dto\TestResult;
-use Tests\lib\TestResultFactory;
+use Tests\AppBundle\lib\TestResultFactory;
 
 class AtLeastOneCompetitorSatisfiesTest extends \PHPUnit_Framework_TestCase
 {

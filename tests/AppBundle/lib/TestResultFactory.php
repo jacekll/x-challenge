@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\lib;
+namespace Tests\AppBundle\lib;
 
 use AppBundle\Dto\TestResult;
 use AppBundle\Dto\Url;

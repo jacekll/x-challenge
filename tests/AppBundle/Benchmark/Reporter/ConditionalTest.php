@@ -6,7 +6,7 @@ use AppBundle\Benchmark\ConditionVerifier;
 use AppBundle\Benchmark\Reporter;
 use AppBundle\Benchmark\Reporter\Conditional;
 use AppBundle\Benchmark\ReportingCondition;
-use Tests\lib\TestResultFactory;
+use Tests\AppBundle\lib\TestResultFactory;
 
 class ConditionalTest extends \PHPUnit_Framework_TestCase
 {
