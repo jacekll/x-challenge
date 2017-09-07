@@ -4,7 +4,7 @@ namespace Tests\AppBundle\Benchmark\Reporter;
 
 use AppBundle\Benchmark\ConditionVerifier;
 use AppBundle\Benchmark\Reporter;
-use AppBundle\Benchmark\Reporter\Conditional;
+use AppBundle\Benchmark\Reporter\ConditionalDecorator;
 use AppBundle\Benchmark\ReportingCondition;
 use Tests\AppBundle\lib\TestResultFactory;
 
@@ -32,7 +32,7 @@ class ConditionalTest extends \PHPUnit_Framework_TestCase
         $conditionStub = self::getMockBuilder(ReportingCondition::class)
             ->getMockForAbstractClass();
 
-        $reporter = new Conditional($conditionStub, $innerReporterMock, $conditionVerifierStub);
+        $reporter = new ConditionalDecorator($conditionStub, $innerReporterMock, $conditionVerifierStub);
         $reporter->report((new TestResultFactory())->getSampleTestResult());
     }
 }

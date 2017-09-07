@@ -8,7 +8,12 @@ use AppBundle\Benchmark\Reporter;
 use AppBundle\Benchmark\ReportingCondition;
 use AppBundle\Dto\TestResult;
 
-class Conditional implements Reporter
+/**
+ * Conditional reporter. Only runs the inner reporter when the given condition is met.
+ *
+ * Decorator pattern for Reporter interface.
+ */
+class ConditionalDecorator implements Reporter
 {
     /** @var ConditionVerifier */
     private $conditionVerifier;

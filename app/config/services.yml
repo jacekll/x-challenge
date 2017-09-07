@@ -71,12 +71,12 @@ services:
 
     # configure more conditional reporters if needed
     conditional_email_reporter:
-        class: AppBundle\Benchmark\Reporter\Conditional
+        class: AppBundle\Benchmark\Reporter\ConditionalDecorator
         arguments:
             - '@email_condition'
             - '@email_reporter'
     conditional_sms_reporter:
-        class: AppBundle\Benchmark\Reporter\Conditional
+        class: AppBundle\Benchmark\Reporter\ConditionalDecorator
         arguments:
             - '@sms_condition'
             - '@sms_reporter'
