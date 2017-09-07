@@ -15,6 +15,9 @@ class Email implements Reporter
     /** @var string */
     private $fromAddress;
 
+    /** @var string email subject */
+    private $subject;
+
     /** @var \Swift_Mailer */
     private $mailer;
 
@@ -27,6 +30,7 @@ class Email implements Reporter
     /**
      * @param string[] $recipientAddresses
      * @param string $fromAddress
+     * @param string $subject
      * @param \Swift_Mailer $mailer
      * @param EngineInterface $templating
      * @param string $templatePath path to twig template relative to app Resources/views directory, no leading slash
@@ -34,6 +38,7 @@ class Email implements Reporter
     public function __construct(
         array $recipientAddresses,
         string $fromAddress,
+        string $subject,
         \Swift_Mailer $mailer,
         EngineInterface $templating,
         string $templatePath
@@ -41,6 +46,7 @@ class Email implements Reporter
     {
         $this->recipientAddresses = $recipientAddresses;
         $this->fromAddress = $fromAddress;
+        $this->subject = $subject;
         $this->mailer = $mailer;
         $this->templating = $templating;
         $this->templatePath = $templatePath;
@@ -51,6 +57,7 @@ class Email implements Reporter
         $message = (new \Swift_Message('Hello Email'))
             ->setFrom($this->fromAddress)
             ->setTo($this->recipientAddresses)
+            ->setSubject($this->subject)
             ->setBody(
                 $this->templating->render(
                     $this->templatePath,

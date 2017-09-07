@@ -51,6 +51,7 @@ services:
         arguments:
             - ['%email_report_recipient_address%']
             - '%email_report_from_address%'
+            - '%email_report_subject%'
             - '@mailer'
             - '@templating'
             - 'report/email.txt.twig'
