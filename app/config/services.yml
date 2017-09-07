@@ -49,8 +49,8 @@ services:
     email_reporter:
         class: AppBundle\Benchmark\Reporter\Email
         arguments:
-            - ['recipient@number-one.com', 'recipient@number-two.com']
-            - 'from@sender.address'
+            - ['%email_report_recipient_address%']
+            - '%email_report_from_address%'
             - '@mailer'
             - '@templating'
             - 'report/email.txt.twig'
@@ -60,8 +60,8 @@ services:
             - '@kch_sms_api.sms_factory.default'
             - '@templating'
             - 'report/sms.txt.twig'
-            - 'Jacek L for XSolve' # sender name
-            - '502536598' # destination address
+            - '%sms_report_sender_name%' # sender name
+            - '%sms_report_recipient_number%' # destination address
     email_condition:
         class: AppBundle\Benchmark\ReportingCondition\RelativelyGreater
     sms_condition:

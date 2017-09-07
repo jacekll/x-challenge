@@ -10,5 +10,10 @@ parameters:
 
     smsapi_login: TEST_LOGIN
     smsapi_password_hash: TEST_HASH
+    sms_report_sender_name: "Jacek L for xsolve"
+    sms_report_recipient_number: "+48502502502"
+    email_report_from_address: "no-reply@jacekl.dev"
+    email_report_recipient_address: "noreply@example.com"
+    email_report_subject: "Benchmark report"
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt
