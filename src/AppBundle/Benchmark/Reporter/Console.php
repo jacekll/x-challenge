@@ -12,7 +12,9 @@ use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-
+/**
+ * Logs a tabular report with given formatter
+ */
 class Console implements Reporter, EventSubscriberInterface
 {
     /** @var Formatter */
