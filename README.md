@@ -32,8 +32,13 @@ Additionally see `app/config/parameters.yml.dist` for configuration parameters.
 
 ## Processor
 
-The `AppBundle\Benchmark\Processor` class coordinates processors (objects providing the data)
-with reporters (objects reponsible for the output(s) of this data) for flexibility.
+The `AppBundle\Benchmark\Processor` is the heart of each sub-benchmark. 
+
+It coordinates processors (objects providing the data) with reporters 
+(objects reponsible for the output(s) of this data) for flexibility.
+
+This way you can register reporting channels (SMS, email etc.) individually 
+for each sub-benchmark)
 
 ## Provider
 
@@ -60,6 +65,12 @@ in `services.yml`
 3. Register the reporter to the command with an `addReporter` call to a processor service (for example to `benchmark_processor_timer` in services.yml`)
 
 A single reporter instance can be reused for many sub-benchmarks.
+
+### Table reporter
+
+`Reporter\Table` gathers data from all sub-benchmarks and outputs it as a table. 
+It is configured to log both to `log.txt` file and user console.
+
 
 ### Conditional reporters
 

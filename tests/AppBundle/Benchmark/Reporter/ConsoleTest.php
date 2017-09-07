@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\Benchmark\Reporter;
 
-use AppBundle\Benchmark\Reporter\Console;
+use AppBundle\Benchmark\Reporter\Table;
 use AppBundle\Benchmark\ValueComparator\Percentage;
 use AppBundle\Dto\TestResult;
 use AppBundle\Dto\Url;
@@ -28,7 +28,7 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
         $formatter = self::getMockBuilder(Formatter::class)
             ->getMockForAbstractClass();
 
-        $reporter = new Console(
+        $reporter = new Table(
             $formatter,
             new Percentage()
         );
@@ -46,7 +46,7 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
     {
         $formatter = new FormatterSpy();
 
-        $reporter = new Console(
+        $reporter = new Table(
             $formatter,
             new Percentage()
         );
@@ -63,7 +63,7 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
     {
         $formatter = new FormatterSpy();
 
-        $reporter = new Console(
+        $reporter = new Table(
             $formatter,
             new Percentage()
         );

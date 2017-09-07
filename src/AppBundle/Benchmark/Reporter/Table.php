@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 /**
  * Logs a tabular report with given formatter
  */
-class Console implements Reporter, EventSubscriberInterface
+class Table implements Reporter, EventSubscriberInterface
 {
     /** @var Formatter */
     private $formatter;

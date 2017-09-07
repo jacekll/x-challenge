@@ -40,7 +40,7 @@ services:
         class: AppBundle\Benchmark\ValueComparator\Percentage
 
     console_reporter:
-        class: AppBundle\Benchmark\Reporter\Console
+        class: AppBundle\Benchmark\Reporter\Table
         arguments:
             - '@table_formatter'
             - '@comparator'
