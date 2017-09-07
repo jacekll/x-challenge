@@ -28,7 +28,9 @@ See comments in `app/config/services.yml` starting from `benchmark` service for 
 
 Additionally see `app/config/parameters.yml.dist` for configuration parameters.
 
-# Architecture
+Customize the text sent by SMS and email by editing `app/Resources/views/report/sms.txt.twig` and `email.txt.twig` templates.
+
+# Advanced customization and Architecture
 
 ## Processor
 
