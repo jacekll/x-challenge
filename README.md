@@ -12,6 +12,11 @@ Run `composer install` shell command in project main directory.
 Run `bin/console app:benchmark <main URL> <other URL1> <other URL2> <other URL3>...`
 in project main directory.
 
+By default the report contains two columns (Page load time and page load time for a second visit) to demonstrate 
+the ability to include many data columns in the report. See *Adding additional data to the report* section for details
+
+Each data column in a benchmark result is a sub-benchmark result.
+
 # Testing
 
 Run `phpunit` in project's main directory to run unit tests.
@@ -19,9 +24,33 @@ Run `phpunit` in project's main directory to run unit tests.
 
 # Configuration
 
-See comments in `app/config/services.yml` starting from `benchmark` service
+See comments in `app/config/services.yml` starting from `benchmark` service for details.
+
+Additionally see `app/config/parameters.yml.dist` for configuration parameters.
+
+# Architecture
+
+## Processor
+
+The `AppBundle\Benchmark\Processor` class coordinates processors (objects providing the data)
+with reporters (objects reponsible for the output(s) of this data) for flexibility.
+
+## Provider
+
+The `AppBundle\Benchmark\Provider` runs a single sub-benchmark on all 
+provided websites (with the help of `AppBunle\Benchmark\WebsiteResultProvider`) and retuns an `AppBundle\Dto\TestResult` instance containing the sub-benchmark results.
+
+
+## WebsiteResultProvider
+
+Implement `AppBundle\Benchmark\WebsiteResultProvider` for an implementation of a new kind of test 
+(like page size, number of assets? etc.). This class is responsible for testing a single website.
 
 ## Reporters
+
+Reporters implement `AppBundle\Benchmark\Reporter` interface.
+
+Reporters are responsible for the output of benchmark results.
 
 See sample reporter definitions: `email_reporter`, `sms_reporter`, `console_reporter`
 in `services.yml`
@@ -30,10 +59,12 @@ in `services.yml`
 2. Register the reporter as a service
 3. Register the reporter to the command with an `addReporter` call to a processor service (for example to `benchmark_processor_timer` in services.yml`)
 
+A single reporter instance can be reused for many sub-benchmarks.
+
 ### Conditional reporters
 
-Just wrap any reporter service in a `AppBundle\Benchmark\Reporter\Conditional` 
-reporter, together with a condition. 
+To have some reporters (sms, email etc.) only run conditionally, just wrap any reporter service 
+in a `AppBundle\Benchmark\Reporter\ConditionalDecorator` reporter decorator, together with a condition. 
 
 See `conditional_email_reporter` and `email_reporter` 
 in `services.yml` for an example.
@@ -46,6 +77,9 @@ A conditional reporter takes:
 
 ### Writing custom conditions
 
+Some reports may need customized logic for checking the conditional output for some reporters (like SMS). 
+
+Achieve this in 2 steps:
 
 #### 1. Implement `ReportingCondition` interface
 
@@ -58,8 +92,12 @@ a `ConditionVerifier` interface.
 
 #### 2. Register the condition with a conditional reporter in `services.yml`
 
-## Adding additional data to the report
+## Adding new kinds of data to the report
 
-1. Configure a benchmark processor 
-(a `AppBundle\Benchmark\Processor` implementation) - see `benchmark_provider_timer` in `services.yml` for an example
-2. Register the benchmark provider to the command with an `addProcessor` call to `benchmark` service (see `services.yml`)
+1. Implement your own `WebsiteResultProvider` implementation (specify unit of measure of your test for the report - like _milliseconds_ or _bytes_)
+2. Configure a `Provider` instance with your `WebsiteResultProvider` implementation
+3. Configure a new benchmark processor in `services.yml`
+(a `AppBundle\Benchmark\Processor` instance) - see `benchmark_provider_timer` in `services.yml` for an example
+   - Register `Reporter` instances with the `Processor` to configure reporting for the new kind of data individually
+4. Register the provider with `benchmark` service (with an `addProcessor` call) (see `services.yml`)
+5. Enjoy :)
