@@ -22,7 +22,7 @@ class UrlCollection implements \IteratorAggregate, \Countable
         return new \ArrayIterator($this->elements);
     }
 
-    private function toUrl($item): void
+    private function toUrl($item): Url
     {
         if (!is_string($item) && !$item instanceof Url) {
             throw new \InvalidArgumentException("Expected a Url instance or a string");
