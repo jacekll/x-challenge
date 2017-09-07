@@ -12,17 +12,17 @@ class UrlCollection implements \IteratorAggregate, \Countable
 
     }
 
-    public function count()
+    public function count(): int
     {
         return count($this->elements);
     }
 
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->elements);
     }
 
-    private function toUrl($item)
+    private function toUrl($item): void
     {
         if (!is_string($item) && !$item instanceof Url) {
             throw new \InvalidArgumentException("Expected a Url instance or a string");

@@ -17,22 +17,22 @@ class WebsiteResultCollection implements \IteratorAggregate, \Countable
         $this->elements = array_map(array($this, 'checkType'), $elements);
     }
 
-    public function count()
+    public function count(): int
     {
         return count($this->elements);
     }
 
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->elements);
     }
 
-    public function add(WebsiteResult $element)
+    public function add(WebsiteResult $element): void
     {
         $this->elements[] = $element;
     }
 
-    public function checkType($item)
+    public function checkType($item): WebsiteResult
     {
         if (!$item instanceof WebsiteResult) {
             throw new \InvalidArgumentException(
@@ -46,7 +46,7 @@ class WebsiteResultCollection implements \IteratorAggregate, \Countable
         return $item;
     }
 
-    public function getByUrl(Url $url)
+    public function getByUrl(Url $url): WebsiteResult
     {
         $itemsByUrl = array_filter($this->elements, function(WebsiteResult $item) use ($url) {
             return $item->getUrl()->getUrl() === $url->getUrl();

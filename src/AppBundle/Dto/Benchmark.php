@@ -2,6 +2,9 @@
 
 namespace AppBundle\Dto;
 
+/**
+ * This Dto is a collection of sub-benchmark results (TestResult);
+ */
 class Benchmark
 {
     /** @var int */

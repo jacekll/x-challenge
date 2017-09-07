@@ -3,7 +3,9 @@
 
 namespace AppBundle\Dto;
 
-
+/**
+ * Contains results of a single test against many websites (+ the "main" website)
+ */
 class TestResult
 {
     /** @var int */
