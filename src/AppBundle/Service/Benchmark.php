@@ -8,6 +8,10 @@ use AppBundle\Dto;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+/**
+ * Class Benchmark
+ * @package AppBundle\Service
+ */
 class Benchmark
 {
     /** @var string */
@@ -54,15 +58,22 @@ class Benchmark
             try {
                 $processor->process($benchmarkResult);
             } catch (\Throwable $e) {
-                $this->logger->error(sprintf('Benchmark processor %s failed: %s', get_class($processor), $e->getMessage()), ['exception' => $e]);
+                $this->logger->error(
+                    sprintf(
+                        'Could not create the report. Benchamrk processor %s failed: %s',
+                        get_class($processor), $e->getMessage()
+                    ),
+                    ['exception' => $e]
+                );
             }
         }
     }
 
     /**
+     * Uses Symfony's built-in validator to validate input
      * @throws IncorrectUrlsException
      */
-    protected function validateInput()
+    private function validateInput()
     {
 
         $violations = $this->validator->validate($this->url);
