@@ -1,7 +1,8 @@
 <?php
 namespace AppBundle\Dto;
 
-use Symfony\Component\Validator\Constraints as Assert;
+use /** @noinspection PhpUnusedAliasInspection */
+    Symfony\Component\Validator\Constraints as Assert;
 
 class Url
 {

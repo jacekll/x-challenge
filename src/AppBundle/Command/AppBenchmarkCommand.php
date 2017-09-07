@@ -21,10 +21,6 @@ class AppBenchmarkCommand extends Command
     /** @var Benchmark */
     private $benchmark;
 
-    /**
-     * AppBenchmarkCommand constructor.
-     * @param LoggerInterface $logger
-     */
     public function __construct(LoggerInterface $logger, Benchmark $benchmark)
     {
         $this->logger = $logger;

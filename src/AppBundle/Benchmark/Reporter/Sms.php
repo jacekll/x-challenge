@@ -24,13 +24,6 @@ class Sms implements Reporter
     /** @var string */
     private $toNumber;
 
-    /**
-     * Sms constructor.
-     * @param SmsFactory $smsActionFactory
-     * @param EngineInterface $templating
-     * @param string $fromName
-     * @param string $toNumber
-     */
     public function __construct(
         SmsFactory $smsActionFactory,
         EngineInterface $templating,
@@ -59,6 +52,7 @@ class Sms implements Reporter
         ));
         $actionSend->setSender($this->fromName);
 
+        // TODO: check status in the result
         $response = $actionSend->execute();
     }
 

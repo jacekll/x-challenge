@@ -15,10 +15,7 @@ class Processor
 
     /** @var LoggerInterface $logger */
     private $logger;
-    /**
-     * Processor constructor.
-     * @param Provider $provider
-     */
+
     public function __construct(Provider $provider, LoggerInterface $logger)
     {
         $this->provider = $provider;

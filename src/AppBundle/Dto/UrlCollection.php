@@ -9,7 +9,6 @@ class UrlCollection implements \IteratorAggregate, \Countable
     public function __construct(array $elements = [])
     {
         $this->elements = array_map(array($this, 'toUrl'), $elements);
-
     }
 
     public function count(): int
