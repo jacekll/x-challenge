@@ -5,6 +5,9 @@ namespace AppBundle\Table\Formatter;
 use AppBundle\Table\Formatter;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Simple table formatter implementation; builds a "table" simply by separating cells with tab characters
+ */
 class TabSeparated implements Formatter
 {
     /** @var LoggerInterface */
