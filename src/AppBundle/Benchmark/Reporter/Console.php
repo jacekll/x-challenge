@@ -32,7 +32,7 @@ class Console implements Reporter, EventSubscriberInterface
         $this->valueComparator = $valueComparator;
     }
 
-    public function report(TestResult $result)
+    public function report(TestResult $result): void
     {
         $this->testResults[] = $result;
     }
@@ -73,15 +73,15 @@ class Console implements Reporter, EventSubscriberInterface
         $this->printStartDateHeader($this->testResults[0]);
 
         $this->printUrl($this->testResults[0]->getMainWebsiteResult()->getUrl());
-        foreach($this->testResults as $testResult) {
+        foreach ($this->testResults as $testResult) {
             $this->printSingleResult($testResult->getName(), $testResult->getUnit(), $testResult->getMainWebsiteResult());
 
         }
         $this->finishRow();
 
-        foreach($this->testResults[0]->getWebsiteResults() as $websiteResult) {
+        foreach ($this->testResults[0]->getWebsiteResults() as $websiteResult) {
             $this->printUrl($websiteResult->getUrl());
-            foreach($this->testResults as $testResult) {
+            foreach ($this->testResults as $testResult) {
                 $this->printSingleComparisonResult(
                     $testResult->getName(),
                     $testResult->getUnit(),

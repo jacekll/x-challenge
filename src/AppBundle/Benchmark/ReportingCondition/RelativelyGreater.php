@@ -5,6 +5,10 @@ namespace AppBundle\Benchmark\ReportingCondition;
 
 use AppBundle\Benchmark\ReportingCondition;
 
+/**
+ * Returns true when at least one competitor website value is greater than or equal
+ * than given percent value; For example: 100 % - competitor value twice as big as original website
+ */
 class RelativelyGreater implements ReportingCondition
 {
     /** @var int|float */

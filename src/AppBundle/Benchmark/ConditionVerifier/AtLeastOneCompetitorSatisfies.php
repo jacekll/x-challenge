@@ -11,7 +11,7 @@ use AppBundle\Dto\TestResult;
  */
 class AtLeastOneCompetitorSatisfies implements ConditionVerifier
 {
-    public function verifyCondition(TestResult $testResult, ReportingCondition $condition)
+    public function verifyCondition(TestResult $testResult, ReportingCondition $condition): bool
     {
         foreach($testResult->getWebsiteResults() as $otherResult) {
             if ($condition->isSatisfied(

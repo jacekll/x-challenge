@@ -6,6 +6,9 @@ namespace AppBundle\Benchmark;
 use AppBundle\Dto\Url;
 use AppBundle\Dto\WebsiteResult;
 
+/**
+ * Implement for actual test against a single website
+ */
 interface WebsiteResultProvider
 {
     /**

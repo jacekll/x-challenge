@@ -46,7 +46,7 @@ class Email implements Reporter
         $this->templatePath = $templatePath;
     }
 
-    public function report(TestResult $result)
+    public function report(TestResult $result): void
     {
         $message = (new \Swift_Message('Hello Email'))
             ->setFrom($this->fromAddress)

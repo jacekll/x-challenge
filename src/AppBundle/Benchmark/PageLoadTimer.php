@@ -9,6 +9,9 @@ use Leadz\GuzzleHttp\Stopwatch\StopwatchMiddleware;
 use Psr\Http\Message\MessageInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
 
+/**
+ * Gets total loading time for a website
+ */
 class PageLoadTimer
 {
     /**

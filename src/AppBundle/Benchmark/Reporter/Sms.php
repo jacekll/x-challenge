@@ -39,7 +39,7 @@ class Sms implements Reporter
         $this->toNumber = $toNumber;
     }
 
-    public function report(TestResult $result)
+    public function report(TestResult $result): void
     {
         $actionSend = $this->smsActionFactory->actionSend();
         $actionSend->setTo($this->toNumber);

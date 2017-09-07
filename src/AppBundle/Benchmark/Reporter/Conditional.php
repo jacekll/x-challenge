@@ -25,14 +25,14 @@ class Conditional implements Reporter
      * @param Reporter $reporter
      * @param ConditionVerifier|null $conditionVerifier defaults to AtLeastOneCompetitorSatisfies
      */
-    public function __construct(ReportingCondition $condition, Reporter $reporter, ConditionVerifier $conditionVerifier = null )
+    public function __construct(ReportingCondition $condition, Reporter $reporter, ConditionVerifier $conditionVerifier = null)
     {
         $this->condition = $condition;
         $this->reporter = $reporter;
         $this->conditionVerifier = $conditionVerifier ?? new AtLeastOneCompetitorSatisfies();
     }
 
-    public function report(TestResult $result)
+    public function report(TestResult $result): void
     {
         if ($this->conditionVerifier->verifyCondition($result, $this->condition)) {
             $this->reporter->report($result);

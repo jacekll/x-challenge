@@ -6,5 +6,8 @@ use AppBundle\Dto\TestResult;
 
 interface Reporter
 {
-    public function report(TestResult $result);
+    /**
+     * Sends/outputs tests results
+     */
+    public function report(TestResult $result) : void;
 }

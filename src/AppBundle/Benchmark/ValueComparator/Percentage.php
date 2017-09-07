@@ -7,7 +7,7 @@ use AppBundle\Benchmark\ValueComparator;
 
 class Percentage implements ValueComparator
 {
-    public function getComparison(float $originalValue, float $compareValue, string $unit)
+    public function getComparison(float $originalValue, float $compareValue, string $unit): string
     {
         if ($originalValue < 0 || $compareValue < 0) {
             throw new \InvalidArgumentException('Expected values greater or equal to 0');

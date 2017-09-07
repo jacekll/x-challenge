@@ -5,6 +5,9 @@ namespace AppBundle\Benchmark;
 use AppBundle\Dto\Benchmark;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Runs and reports a single sub-benchmark (single test for many websites)
+ */
 class Processor
 {
     /** @var Reporter[] */

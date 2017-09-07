@@ -6,5 +6,5 @@ use AppBundle\Dto\TestResult;
 
 interface ConditionVerifier
 {
-    public function verifyCondition(TestResult $testResult, ReportingCondition $condition);
+    public function verifyCondition(TestResult $testResult, ReportingCondition $condition) : bool;
 }
