@@ -1,6 +1,8 @@
 Website benchmark challenge for Xsolve
 ======
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jacekll/x-challenge/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jacekll/x-challenge/?branch=master)
+
 # Installation
 
 Be ready to provide configuration parameters, like SMSApi credentials.
